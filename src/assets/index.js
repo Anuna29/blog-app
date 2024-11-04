@@ -1,2 +1,7 @@
 export * from "./HeaderLogo"
 export * from "./SearchBarLogo"
+export * from "./CopyrightLogo"
+export * from "./Facebook"
+export * from "./Instagram"
+export * from "./LinkedIn"
+export * from "./Twitter"
