@@ -1,0 +1,22 @@
+#footer-container {
+  height: 495px;
+  background-color: #f6f6f7;
+  padding: 60px 0px;
+}
+
+#footer-above {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#footer-about {
+  display: flex;
+  flex-direction: column;
+}
+
+#footer-middle {
+  display: flex;
+  flex-direction: column;
+}

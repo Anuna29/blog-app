@@ -1,7 +1,8 @@
 import React from 'react'
+import { Header } from '../../components'
 
 export const ContactUsPage = () => {
   return (
-    <div>ContactUsPage</div>
+    <div className='container'><Header/></div>
   )
 }

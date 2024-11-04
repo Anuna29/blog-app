@@ -1,7 +1,8 @@
 import React from 'react'
+import { Header } from '../../components'
 
 export const BlogsPage = () => {
   return (
-    <div>BlogsPage</div>
+    <div className='container'><Header/></div>
   )
 }
