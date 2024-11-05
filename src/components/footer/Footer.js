@@ -5,7 +5,8 @@ import { Facebook, LinkedIn, Twitter, Instagram, CopyrightLogo } from '../../ass
 
 export const Footer = () => {
   return (
-    <div id='footer-container' className='container'>
+    <div id='footer'>
+      <div id='footer-container'>
       <div id='footer-top'>
         <div id='footer-about'>
           <h4>About</h4>
@@ -41,6 +42,7 @@ export const Footer = () => {
             <p>Cookie Policy</p>
         </div>
       </div> 
+    </div>
     </div>
   )
 }

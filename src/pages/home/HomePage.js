@@ -4,7 +4,7 @@ import { Footer, Header } from '../../components'
 
 export const HomePage = () => {
   return (
-    <div className='container'>
+    <div id="home-container">
       <Header />
       <img src="images/image-1.png" alt="home"/>
       <Footer />

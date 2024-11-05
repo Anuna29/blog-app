@@ -1,5 +1,14 @@
-#footer-container {
+#footer {
   background-color: #f6f6f7;
+  padding: 60px 0px;
+}
+
+#footer-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
   min-width: 800px;
 }
 
