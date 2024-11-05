@@ -1,7 +1,11 @@
 import React from 'react'
+import { Footer, Header } from '../../components'
 
 export const BlogPage = () => {
   return (
-    <div>BlogPage</div>
+    <div>
+      <Header />
+      <Footer />
+    </div>
   )
 }
