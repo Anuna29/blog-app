@@ -1,6 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { BlogPage, BlogsPage, ContactUsPage, HomePage, NotFoundPage, SignInPage, SignUpPage, } from "./pages";
 import { useUserContext } from "./context/UserContext";
+import { CircularProgress } from "@mui/material";
 
 export const App = () => {
   const { loading, isUserLoggedIn } = useUserContext();
@@ -14,7 +15,9 @@ export const App = () => {
           display:"flex", 
           alignItems:"center",
           justifyContent:"center" 
-        }}>Loading...</div>);
+        }}>
+          <CircularProgress />
+        </div>);
   }
 
   return (

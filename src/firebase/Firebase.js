@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -26,3 +27,8 @@ export const signInFunction = (email, password) => {
 export const signOutFunction = () => {
   return signOut(auth);
 }
+
+export const database = getFirestore(app);
+
+export const usersCollection = collection(database, "users");
+export const contactsCollection = collection(database, "contacts");

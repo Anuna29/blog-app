@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./ContactUsPage.css"
 import { Button, Footer, Header, TextField } from '../../components'
+import { addDoc } from 'firebase/firestore';
+import { contactsCollection } from '../../firebase';
 
 export const ContactUsPage = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async () => {
+    await addDoc(contactsCollection,{
+      email,
+      fullName,
+      subject,
+      message,
+    })
+
+    setEmail("");
+    setFullName("");
+    setSubject("");
+    setMessage("");
+
+    alert("Contact message sent successfully")
+  };
+
   return (
     <div>
       <Header />
@@ -34,17 +57,19 @@ export const ContactUsPage = () => {
         <div id="contact-form">
           <h2>Leave a Message</h2>
           <div id='contact-inputs'>
-            <TextField placeholder="Your Name" style={{width:"248px",}}/>
-            <TextField placeholder="Your Email" style={{width:"248px",}}/>
+            <TextField placeholder="Your Name" style={{width:"248px",}} onChange={(e) => setFullName(e.target.value)} value={fullName}/>
+            
+            <TextField placeholder="Your Email" style={{width:"248px",}} onChange={(e) => setEmail(e.target.value)} value={email}/>
           </div>
 
-          <TextField placeholder="Subject"/>
+          <TextField placeholder="Subject" onChange={(e) => setSubject(e.target.value)} value={subject}/>
           <textarea
             placeholder="Write a message"
             rows="6"
+            value={message}
             
           />
-          <Button style={{width:"130px"}}>Send Message</Button>
+          <Button style={{width:"130px"}} onClick={handleSubmit}>Send Message</Button>
 
         </div>
       </div>

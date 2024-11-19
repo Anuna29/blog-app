@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./SignUp.css"
 import { Link, useNavigate } from "react-router-dom";
 import { Button, TextField } from "../../components";
-import { signUpFunction } from '../../firebase';
+import { signUpFunction, usersCollection } from '../../firebase';
 
 export const SignUpPage = () => {
   const [error, setError] = useState(null);

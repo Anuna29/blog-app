@@ -1,8 +1,9 @@
 import React from 'react'
-import "./HomePage.css"
 import { Button, Footer, Header } from '../../components'
 import { useUserContext } from '../../context/UserContext'
 import { signOutFunction } from '../../firebase'
+import { CircularProgress } from '@mui/material';
+import "./HomePage.css"
 
 export const HomePage = () => {
   const { loading, currentUser} = useUserContext();
@@ -20,7 +21,9 @@ export const HomePage = () => {
           display:"flex", 
           alignItems:"center",
           justifyContent:"center" 
-        }}>Loading...</div>);
+        }}>
+          <CircularProgress />
+        </div>);
   }
 
   return (
@@ -29,11 +32,11 @@ export const HomePage = () => {
       <div id='home-container'>
         {currentUser ? (
           <>
-            <h1>Welcome back, {currentUser.displayName}!</h1>
+            <h3>Welcome back, {currentUser.displayName}!</h3>
             <Button onClick={handleSignOut} style={{width:"100px"}}>Sign Out</Button>
           </>
         ) : (
-          <h1>Welcome Guest!</h1>
+          <h3>Welcome Guest!</h3>
         )}
       </div>
       <Footer />
