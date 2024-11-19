@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,3 +22,7 @@ export const signUpFunction = (firstName, lastName, email, password) => {
 export const signInFunction = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutFunction = () => {
+  return signOut();
+}
