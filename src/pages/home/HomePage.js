@@ -1,6 +1,6 @@
 import React from 'react'
 import "./HomePage.css"
-import { Footer, Header } from '../../components'
+import { Button, Footer, Header } from '../../components'
 import { useUserContext } from '../../context/UserContext'
 import { signOutFunction } from '../../firebase'
 
@@ -27,14 +27,13 @@ export const HomePage = () => {
     <div>
       <Header />
       <div id='home-container'>
-        <h1>Home Page</h1>
         {currentUser ? (
           <>
-            <p>Welcome back, {currentUser.displayName}!</p>
-            <button onClick={handleSignOut}>Sign Out</button>
+            <h1>Welcome back, {currentUser.displayName}!</h1>
+            <Button onClick={handleSignOut} style={{width:"100px"}}>Sign Out</Button>
           </>
         ) : (
-          <p>Welcome Guest!</p>
+          <h1>Welcome Guest!</h1>
         )}
       </div>
       <Footer />

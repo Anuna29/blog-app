@@ -1,6 +1,6 @@
 import React from 'react'
 import "./ContactUsPage.css"
-import { Footer, Header, TextField } from '../../components'
+import { Button, Footer, Header, TextField } from '../../components'
 
 export const ContactUsPage = () => {
   return (
@@ -44,6 +44,7 @@ export const ContactUsPage = () => {
             rows="6"
             
           />
+          <Button style={{width:"130px"}}>Send Message</Button>
 
         </div>
       </div>

@@ -24,5 +24,5 @@ export const signInFunction = (email, password) => {
 };
 
 export const signOutFunction = () => {
-  return signOut();
+  return signOut(auth);
 }
