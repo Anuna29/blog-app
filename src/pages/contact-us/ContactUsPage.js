@@ -66,6 +66,7 @@ export const ContactUsPage = () => {
           <textarea
             placeholder="Write a message"
             rows="6"
+            onChange={(e) => setMessage(e.target.value)}
             value={message}
             
           />
