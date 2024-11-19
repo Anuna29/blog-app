@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { getFirestore, collection } from "firebase/firestore";
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -14,10 +14,25 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-export const signUpFunction = (firstName, lastName, email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password).then(()=>{
-    return updateProfile(auth.currentUser,{displayName: `${firstName} ${lastName}`})
-  });
+export const signUpFunction = async (firstName, lastName, email, password) => {
+  try {
+    const userCrential = await createUserWithEmailAndPassword(auth, email, password); 
+
+    const user = userCrential.user;
+
+    await updateProfile(user, {
+      displayName: `${firstName} ${lastName}`,
+    });
+
+    await setDoc(doc(usersCollection, user.uid), {
+      displayName: user.displayName,
+      email: user.email,
+      phoneNumber: user.phoneNumber || "",
+      photoURL: user.photoURL || "",
+    });
+  }catch(error) {
+    console.log("Error signing up",error);
+  }
 };
 
 export const signInFunction = (email, password) => {
