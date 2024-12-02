@@ -1,18 +1,19 @@
 import React from 'react'
-import { Button, Footer, Header } from '../../components'
-import { useUserContext } from '../../context/UserContext'
+import { Button, Card, Footer, Header } from '../../components'
 import { signOutFunction } from '../../firebase'
 import { CircularProgress } from '@mui/material';
 import "./HomePage.css"
+import { useBlogContext, useUserContext } from '../../context';
 
 export const HomePage = () => {
   const { loading, currentUser} = useUserContext();
+  const { blogs, blogsLoading } = useBlogContext();
 
   const handleSignOut = async () => {
     await signOutFunction();
   };
 
-  if (loading) {
+  if (loading || blogsLoading) {
     return (
       <div 
         style={{
@@ -38,7 +39,19 @@ export const HomePage = () => {
         ) : (
           <h3>Welcome Guest!</h3>
         )}
+
+        <div style={{display:"flex", flexWrap: "wrap", gap: 20, marginTop: 100}}>
+          
+            {blogs.map((blog, index) => (
+              <div key={index}>
+                <Card blog={blog} index={index}/>
+              </div>
+              
+            ))}
+       
+        </div>
       </div>
+      
       <Footer />
     </div>
   )

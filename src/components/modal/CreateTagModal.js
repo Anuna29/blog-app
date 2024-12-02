@@ -10,7 +10,7 @@ const { open, handleClose } = props;
 const [tagData, setTagData] = useState({
   name:"",
   description: "",
-  color: "#26E6FF",
+  color: "#1e1e1e",
 })
 
 const [loading, setLoading] = useState(false);
