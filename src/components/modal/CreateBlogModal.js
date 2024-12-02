@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { Modal } from './Modal'
 import { TextField } from '../textfield'
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, MenuItem, Select } from '@mui/material'
 import { Button } from '../button'
 import { blogsCollection } from '../../firebase'
-import { useUserContext } from '../../context'
+import { useTagContext, useUserContext } from '../../context'
 import { addDoc, serverTimestamp } from 'firebase/firestore'
 export const CreateBlogModal = (props) => {
 const { currentUser } = useUserContext();
+const { tags, tagLoading} = useTagContext();
 const { open, handleClose } = props;
 const [blogData, setBlogData] = useState({
   title:"",
   description: "",
   content: "",
+  tag: "",
 })
 
 const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ const handleChange = (event) => {
 }
 
 const handleSubmit = async () => {
-  if (blogData.content === ""|| blogData.description === "" || blogData.title === "") {
+  if (blogData.content === ""|| blogData.description === "" || blogData.title === "" || blogData.tag === "") {
     alert("Please fill all the fields!")
   }else {
     setLoading(true);
@@ -35,12 +37,14 @@ const handleSubmit = async () => {
       description: blogData.description,
       content: blogData.content,
       createdAt: serverTimestamp(),
+      tagID: blogData.tag,
     });
 
     setBlogData({
       title:"",
       description: "",
       content: "",
+      tag: "",
     });
     handleClose();
     setLoading(false);
@@ -49,7 +53,7 @@ const handleSubmit = async () => {
 
   return (
     <Modal open={open} handleClose={handleClose}>
-       {loading ? (
+       {tagLoading || loading ? (
         <Box sx={{
           display:'flex', 
           justifyContent:'center', 
@@ -66,6 +70,30 @@ const handleSubmit = async () => {
           <TextField type="text" name="title" placeholder="Title..." value={blogData.title} onChange={handleChange}/>
           <TextField type="text" name="description" placeholder="Description..." value={blogData.description} onChange={handleChange}/>
           <TextField type="text" name="content" placeholder="Content..." value={blogData.content} onChange={handleChange}/>
+
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={blogData.tag}
+            name='tag'
+            label=""
+            onChange={handleChange}
+            displayEmpty
+            sx={{
+              height: '37px',
+              borderRadius: '8px',
+              fontSize: "14px",
+            }}
+          >
+            <MenuItem value="">
+              {tags.lenght === 0 ? "Add new tag" : "Choose tag..."}
+            </MenuItem>
+
+            {tags.map((tag) => (
+               <MenuItem value={tag.tagID} key={tag.tagID}>{tag.name}</MenuItem>
+            ))}
+          </Select>
+
   
           <Box sx={{display:"flex", gap:"150px"}}>
             <Button onClick={handleClose}>Cancel</Button>

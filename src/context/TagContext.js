@@ -10,18 +10,18 @@ export const TagContextProvider = (props) => {
   const [tagLoading, setTagLoading] = useState(true);
 
   useEffect(() => {
-   const unsubscribe = onSnapshot(tagsCollection, (collection)=> {
-      const tagData = collection.docs.map((doc) => ({
+    const unsubscribe = onSnapshot(tagsCollection, (queryCollectionSnapShot) => {
+      const tagData = queryCollectionSnapShot.docs.map((doc) => ({
         ...doc.data(),
-        tagId: doc.id,
-      }))
+        tagID: doc.id,
+      }));
 
       setTags(tagData);
       setTagLoading(false);
     });
 
-    return () => unsubscribe();
-  } , [])
+    return () => unsubscribe;
+  })
 
   return (
     <TagContext.Provider value={{tags, tagLoading}}>
