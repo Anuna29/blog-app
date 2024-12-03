@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Card, Footer, Header } from '../../components'
 import { signOutFunction } from '../../firebase'
 import { CircularProgress } from '@mui/material';
 import "./HomePage.css"
-import { useBlogContext, useUserContext } from '../../context';
+import { useBlogContext, useTagContext, useUserContext } from '../../context';
 
 export const HomePage = () => {
   const { loading, currentUser} = useUserContext();
   const { blogs, blogsLoading } = useBlogContext();
+  const { tags, tagLoading } = useTagContext();
+
+  const [ selectedTag, setSelectedTag ] = useState();
 
   const handleSignOut = async () => {
     await signOutFunction();
   };
 
-  if (loading || blogsLoading) {
+  if (loading || blogsLoading || tagLoading) {
     return (
       <div 
         style={{
@@ -39,16 +42,22 @@ export const HomePage = () => {
         ) : (
           <h3>Welcome Guest!</h3>
         )}
-
-        <div style={{display:"flex", flexWrap: "wrap", gap: 20, marginTop: 100}}>
-          
+        <div style={{display:"flex", flexDirection:"column", gap:20, marginTop:100}}>
+          <h2>All Blog Posts</h2>
+          <div style={{display:"flex", gap: 20, fontSize: 14, fontWeight: 700, cursor:"pointer"}}>
+            {tags.length === 0 ? (
+              "No tags"
+            ) : (
+              [{name:"All", tagID: ""},...tags].map((tag, index)=><div key={index} style={{color: selectedTag === tag.tagID ? "#D4A373" : "#000"}} onClick={()=> setSelectedTag(tag.tagID)}>{tag.name}</div>)
+          )}</div>
+          <div style={{display:"flex", flexWrap: "wrap", gap: 20}}>
             {blogs.map((blog, index) => (
               <div key={index}>
                 <Card blog={blog} index={index}/>
               </div>
               
             ))}
-       
+          </div>
         </div>
       </div>
       
