@@ -12,6 +12,8 @@ export const HomePage = () => {
 
   const [ selectedTag, setSelectedTag ] = useState();
 
+  const filteredBlogs = selectedTag ? blogs.filter((blog)=> selectedTag === blog.tagID) : blogs;
+
   const handleSignOut = async () => {
     await signOutFunction();
   };
@@ -51,7 +53,7 @@ export const HomePage = () => {
               [{name:"All", tagID: ""},...tags].map((tag, index)=><div key={index} style={{color: selectedTag === tag.tagID ? "#D4A373" : "#000"}} onClick={()=> setSelectedTag(tag.tagID)}>{tag.name}</div>)
           )}</div>
           <div style={{display:"flex", flexWrap: "wrap", gap: 20}}>
-            {blogs.map((blog, index) => (
+            {filteredBlogs.map((blog, index) => (
               <div key={index}>
                 <Card blog={blog} index={index}/>
               </div>
