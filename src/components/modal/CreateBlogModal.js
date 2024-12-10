@@ -10,7 +10,7 @@ import { uploadImage } from '../../cloudinary'
 export const CreateBlogModal = (props) => {
 const { currentUser } = useUserContext();
 const { tags, tagLoading} = useTagContext();
-const { open, handleClose } = props;
+const { open, handleClose } = props;  
 const [blogData, setBlogData] = useState({
   title:"",
   description: "",
@@ -23,17 +23,16 @@ const [file, setFile] = useState();
 
 
 const handleChange = (event) => {
-const { name, value } = event.target;
-
+  const { name, value } = event.target;
   setBlogData({...blogData, [name]: value });
-}
+};
 
 const handleSubmit = async () => {
   if (
     blogData.content === ""|| 
     blogData.description === "" || 
     blogData.title === "" || 
-    blogData.tag === "",
+    blogData.tag === "" ||
     !file
   ) {
     alert("Please fill all the fields!")
@@ -41,7 +40,6 @@ const handleSubmit = async () => {
     setLoading(true);
 
     const previewLink = await uploadImage(file);
-
 
     await addDoc(blogsCollection, {
       userId: currentUser.uid,
@@ -61,7 +59,6 @@ const handleSubmit = async () => {
     });
     setFile();
     setLoading(false);
-
     handleClose();
   };
 };
@@ -82,10 +79,23 @@ const handleSubmit = async () => {
           gap: '10px',
         }}> 
          <h2 style={{margin:0}}>Create a new blog</h2>
-          <TextField type="text" name="title" placeholder="Title..." value={blogData.title} onChange={handleChange}/>
-          <TextField type="text" name="description" placeholder="Description..." value={blogData.description} onChange={handleChange}/>
-          <TextField type="text" name="content" placeholder="Content..." value={blogData.content} onChange={handleChange}/>
-
+          <TextField 
+            type="text" 
+            name="title" 
+            placeholder="Title..." 
+            value={blogData.title} 
+            onChange={handleChange}/>
+          <TextField type="text" 
+            name="description" 
+            placeholder="Description..." 
+            value={blogData.description} 
+            onChange={handleChange}/>
+          <TextField 
+            type="text" 
+            name="content" 
+            placeholder="Content..." 
+            value={blogData.content} 
+            onChange={handleChange}/>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -104,7 +114,7 @@ const handleSubmit = async () => {
               {tags.lenght === 0 ? "Add new tag" : "Choose tag..."}
             </MenuItem>
 
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
                <MenuItem value={tag.tagID} key={tag.tagID}>{tag.name}</MenuItem>
             ))}
           </Select>

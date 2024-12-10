@@ -4,7 +4,7 @@ import { useUserContext } from "./context/UserContext";
 import { CircularProgress } from "@mui/material";
 
 export const App = () => {
-  const { loading, isUserLoggedIn } = useUserContext();
+  const { loading } = useUserContext();
 
   if (loading) {
     return (
@@ -23,23 +23,14 @@ export const App = () => {
   return (
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<HomePage />}/>
-
-          {isUserLoggedIn ? (
-            <>
-            <Route path="/blogs" element={<BlogsPage />}/>
-            <Route path="/blog/:id" element={<BlogPage />}/>
-            <Route path="/contact-us" element={<ContactUsPage />}/>
-            </>
-          ) : (
-          <>
+          <Route path="/" element={<HomePage />}/>
+          <Route path="/blogs" element={<BlogsPage />}/>
+          <Route path="/blog/:id" element={<BlogPage />}/>
           <Route path="/contact-us" element={<ContactUsPage />}/>
           <Route path="/404" element={<NotFoundPage />}/>
           <Route path="/sign-in" element={<SignInPage />}/>
           <Route path="/sign-up" element={<SignUpPage />}/>
           <Route path="*" element={<NotFoundPage />}/>
-          </>
-        )}
         </Routes>
       </BrowserRouter>
   );

@@ -1,6 +1,6 @@
 export const uploadImage = async (file) => {
-  const cloudName = process.env.REACT_APP_CLOUD_NAME || "";
-  const uploadPreset = process.env.REACT_APP_UPLOAD_PRESET || "";
+  const cloudName = process.env.REACT_APP_CLOUD_NAME;
+  const uploadPreset = process.env.REACT_APP_UPLOAD_PRESET;
 
     const formData = new FormData();
     formData.append('file', file);
@@ -17,8 +17,9 @@ export const uploadImage = async (file) => {
       if (!response.ok) {
         throw new Error("Failed to upload");
       }
-      const data = await response.json();
-      return data.secure_url
+
+      const { secure_url } = await response.json();
+      return secure_url
     } catch (error) {
       console.log(error);
       return null;
