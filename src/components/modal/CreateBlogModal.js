@@ -6,6 +6,7 @@ import { Button } from '../button'
 import { blogsCollection } from '../../firebase'
 import { useTagContext, useUserContext } from '../../context'
 import { addDoc, serverTimestamp } from 'firebase/firestore'
+import { uploadImage } from '../../cloudinary'
 export const CreateBlogModal = (props) => {
 const { currentUser } = useUserContext();
 const { tags, tagLoading} = useTagContext();
@@ -18,24 +19,36 @@ const [blogData, setBlogData] = useState({
 })
 
 const [loading, setLoading] = useState(false);
+const [file, setFile] = useState();
+
 
 const handleChange = (event) => {
-  const { name, value } = event.target;
+const { name, value } = event.target;
 
   setBlogData({...blogData, [name]: value });
 }
 
 const handleSubmit = async () => {
-  if (blogData.content === ""|| blogData.description === "" || blogData.title === "" || blogData.tag === "") {
+  if (
+    blogData.content === ""|| 
+    blogData.description === "" || 
+    blogData.title === "" || 
+    blogData.tag === "",
+    !file
+  ) {
     alert("Please fill all the fields!")
   }else {
     setLoading(true);
+
+    const previewLink = await uploadImage(file);
+
 
     await addDoc(blogsCollection, {
       userId: currentUser.uid,
       title: blogData.title,
       description: blogData.description,
       content: blogData.content,
+      imageUrl: previewLink,
       createdAt: serverTimestamp(),
       tagID: blogData.tag,
     });
@@ -46,8 +59,10 @@ const handleSubmit = async () => {
       content: "",
       tag: "",
     });
-    handleClose();
+    setFile();
     setLoading(false);
+
+    handleClose();
   };
 };
 
@@ -94,6 +109,8 @@ const handleSubmit = async () => {
             ))}
           </Select>
 
+          <input type="file" onChange={(e)=>{setFile(e.target.files[0]);
+          }}/>
   
           <Box sx={{display:"flex", gap:"150px"}}>
             <Button onClick={handleClose}>Cancel</Button>
