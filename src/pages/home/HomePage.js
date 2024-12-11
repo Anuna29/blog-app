@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Footer, Header } from '../../components'
+import { Button, Card, Footer, Header, TrendingCard } from '../../components'
 import { signOutFunction } from '../../firebase'
 import { CircularProgress } from '@mui/material';
 import "./HomePage.css"
@@ -13,6 +13,8 @@ export const HomePage = () => {
   const [ selectedTag, setSelectedTag ] = useState();
 
   const filteredBlogs = selectedTag ? blogs.filter((blog)=> selectedTag === blog.tagID) : blogs;
+
+  const trendingBlogs = [...blogs].sort((a , b) => b.createdAt - a.createdAt).slice(0, 4);
 
   const handleSignOut = async () => {
     await signOutFunction();
@@ -44,6 +46,27 @@ export const HomePage = () => {
         ) : (
           <h3>Welcome Guest!</h3>
         )}
+        <div 
+          style={{
+            display:"flex",
+            flexDirection:"column",
+            gap:20,
+            marginTop: "50px 0px",
+          }}
+          >
+            <h2>Trending</h2>
+
+          <div 
+            style={{
+              display:"flex",
+              gap: "20px",
+            }}
+          >
+            {trendingBlogs.map((blog, index) => (
+              <TrendingCard index={index} blog={blog} />
+          ))}
+          </div>
+        </div>
         <div style={{display:"flex", flexDirection:"column", gap:20, marginTop:100}}>
           <h2>All Blog Posts</h2>
           <div style={{display:"flex", gap: 20, fontSize: 14, fontWeight: 700, cursor:"pointer"}}>
