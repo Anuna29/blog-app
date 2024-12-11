@@ -1,15 +1,27 @@
-import React from 'react'
-import { Footer, Header } from '../../components'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Footer, Header, Button, DeleteBlogModal } from '../../components'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useBlogContext } from '../../context';
 import { CircularProgress } from '@mui/material';
 import "./BlogPage.css"
 
 export const BlogPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [openDeleteBlog, setOpenDeleteBlog] = useState(false);
+  const handleOpenDeleteBlog = () => setOpenDeleteBlog(true);
+  const handleCloseDeleteBlog = () => setOpenDeleteBlog(false);
+
   const { blogs, blogsLoading } = useBlogContext();
 
   const singleBlog = blogs.find((blog) => blog.blogID === id);
+
+  useEffect(() => {
+    if(!blogsLoading && !singleBlog){
+      navigate("/404", { replace: true })
+    }
+  },[blogsLoading, singleBlog,navigate]);
 
   if (blogsLoading) {
     return (
@@ -24,6 +36,7 @@ export const BlogPage = () => {
           <CircularProgress />
         </div>);
   }
+  if(!singleBlog) return null;
  
   return (
     <div>
@@ -50,7 +63,21 @@ export const BlogPage = () => {
         </div>
         <img src={singleBlog.imageURL} width={800} alt={singleBlog.title} />
         <p style={{marginTop:"40px"}}>{singleBlog.content}</p>
+        <div 
+          style={{
+            display:"flex",
+            justifyContent: "space-between",
+            marginTop: 40,
+          }}
+        >
+          <Button style={{ width:"120px"}}>Update</Button>
+          <Button style={{ width:"120px"}} onClick={handleOpenDeleteBlog}>Delete</Button>
+        </div>
       </div>
+      <DeleteBlogModal 
+        open={openDeleteBlog}
+        handleClose={handleCloseDeleteBlog}
+      />
       <Footer />
     </div>
   )
