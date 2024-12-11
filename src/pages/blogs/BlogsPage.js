@@ -7,7 +7,6 @@ export const BlogsPage = () => {
   const { currentUser } = useUserContext();
   const { blogs } = useBlogContext();
 
-
   const [openBlog, setOpenBlog] = useState(false);
   const [openTag, setOpenTag] = useState(false);
 

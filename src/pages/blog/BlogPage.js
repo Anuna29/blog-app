@@ -77,6 +77,7 @@ export const BlogPage = () => {
       <DeleteBlogModal 
         open={openDeleteBlog}
         handleClose={handleCloseDeleteBlog}
+        blogId={id}
       />
       <Footer />
     </div>
