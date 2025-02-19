@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Footer, Header, Button, DeleteBlogModal } from '../../components'
+import { Footer, Header, Button, DeleteBlogModal, UpdateBlogModal } from '../../components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useBlogContext } from '../../context';
 import { CircularProgress } from '@mui/material';
@@ -12,6 +12,10 @@ export const BlogPage = () => {
   const [openDeleteBlog, setOpenDeleteBlog] = useState(false);
   const handleOpenDeleteBlog = () => setOpenDeleteBlog(true);
   const handleCloseDeleteBlog = () => setOpenDeleteBlog(false);
+
+  const [openUpdateBlog, setOpenUpdateBlog] = useState(false);
+  const handleOpenUpdateBlog = () => setOpenUpdateBlog(true);
+  const handleCloseUpdateBlog = () => setOpenUpdateBlog(false);
 
   const { blogs, blogsLoading } = useBlogContext();
 
@@ -70,7 +74,7 @@ export const BlogPage = () => {
             marginTop: 40,
           }}
         >
-          <Button style={{ width:"120px"}}>Update</Button>
+          <Button style={{ width:"120px"}} onClick={handleOpenUpdateBlog}>Update</Button>
           <Button style={{ width:"120px"}} onClick={handleOpenDeleteBlog}>Delete</Button>
         </div>
       </div>
@@ -78,6 +82,12 @@ export const BlogPage = () => {
         open={openDeleteBlog}
         handleClose={handleCloseDeleteBlog}
         blogId={id}
+      />
+
+      <UpdateBlogModal 
+        open={openUpdateBlog}
+        handleClose={handleCloseUpdateBlog}
+        blogId={singleBlog}
       />
       <Footer />
     </div>
